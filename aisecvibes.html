@@ -1,4 +1,3 @@
-
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   .vod { padding: 1rem 0 2rem; font-family: var(--font-sans); }
@@ -8,11 +7,91 @@
   .meta { font-size: 13px; color: var(--color-text-secondary); margin-top: 2px; }
 
   .timeline { display: flex; gap: 0; margin-bottom: 1.5rem; border-radius: var(--border-radius-md); overflow: hidden; border: 0.5px solid var(--color-border-tertiary); }
-  .tl-seg { flex: 1; padding: 10px 8px; text-align: center; border-right: 0.5px solid var(--color-border-tertiary); }
+  .tl-seg { flex: 1; padding: 10px 8px; text-align: center; border-right: 0.5px solid var(--color-border-tertiary); transition: background 0.2s; }
   .tl-seg:last-child { border-right: none; }
   .tl-time { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); }
   .tl-label { font-size: 12px; color: var(--color-text-primary); margin-top: 3px; line-height: 1.3; }
   .tl-active { background: var(--color-background-secondary); }
+
+  .quick-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+    margin-bottom: 1.5rem;
+  }
+  .metric {
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    padding: 10px 12px;
+  }
+  .metric-icon { font-size: 16px; margin-bottom: 4px; }
+  .metric-value { font-size: 16px; font-weight: 600; color: var(--color-text-primary); }
+  .metric-label { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+
+  .live-tools {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+  .timer-card, .energy-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 14px;
+  }
+  .timer-value {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+  .timer-progress {
+    width: 100%;
+    height: 10px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: #E6EAF0;
+    margin-bottom: 10px;
+  }
+  .timer-progress-fill {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #1D9E75, #5AC59E);
+    transition: width 0.3s;
+  }
+  .timer-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .timer-controls button {
+    border: 0.5px solid var(--color-border-secondary);
+    background: var(--color-background-secondary);
+    color: var(--color-text-primary);
+    border-radius: var(--border-radius-sm);
+    padding: 7px 10px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .timer-note { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+
+  .energy-row {
+    display: grid;
+    grid-template-columns: 72px 1fr 42px;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .energy-label, .energy-score { font-size: 12px; color: var(--color-text-secondary); }
+  .energy-bar-track {
+    height: 9px;
+    background: #E6EAF0;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .energy-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #8B5CF6, #B391FA);
+  }
 
   .section-label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; }
 
@@ -24,13 +103,42 @@
   .step-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
   .step-tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 99px; margin-top: 6px; font-weight: 500; }
 
-  .prompts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin-bottom: 1.5rem; }
-  .prompt-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 12px 14px; cursor: pointer; transition: border-color 0.15s; }
+  .prompts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin-bottom: 12px; }
+  .prompt-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
   .prompt-card:hover { border-color: var(--color-border-secondary); }
+  .prompt-card:focus-visible { outline: 2px solid #3D8BF5; outline-offset: 1px; }
   .prompt-card.picked { border: 2px solid var(--color-border-info); background: var(--color-background-info); }
   .prompt-emoji { font-size: 20px; margin-bottom: 6px; }
   .prompt-text { font-size: 13px; color: var(--color-text-primary); line-height: 1.5; font-style: italic; }
   .prompt-vibe { font-size: 11px; color: var(--color-text-secondary); margin-top: 5px; }
+
+  .prompt-actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .prompt-actions button {
+    border: 0.5px solid var(--color-border-secondary);
+    background: var(--color-background-secondary);
+    color: var(--color-text-primary);
+    border-radius: var(--border-radius-sm);
+    padding: 8px 11px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .pick-status {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    margin-bottom: 1.5rem;
+  }
 
   .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1.5rem; }
   .rule { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: var(--border-radius-md); }
@@ -49,7 +157,10 @@
 
   .callout { border-left: 3px solid #1D9E75; background: #E1F5EE; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 12px 14px; font-size: 13px; color: #085041; line-height: 1.6; }
 
-  .pick-btn { margin-top: 1rem; }
+  @media (max-width: 840px) {
+    .live-tools { grid-template-columns: 1fr; }
+    .rules { grid-template-columns: 1fr; }
+  }
 
   @media (prefers-color-scheme: dark) {
     .rule-ok { background: #04342C; }
@@ -58,6 +169,7 @@
     .rule-no .rule-text { color: #F7C1C1; }
     .callout { background: #04342C; color: #9FE1CB; }
     .prompt-card.picked { background: #042C53; }
+    .timer-progress, .energy-bar-track { background: #36404E; }
   }
 </style>
 
@@ -88,6 +200,68 @@
     <div class="tl-seg">
       <div class="tl-time">7:30 – 8:00</div>
       <div class="tl-label">Vote + winner</div>
+    </div>
+  </div>
+
+  <div class="quick-metrics">
+    <div class="metric">
+      <div class="metric-icon">👥</div>
+      <div class="metric-value">All</div>
+      <div class="metric-label">participants build</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon">⏱️</div>
+      <div class="metric-value">8:00</div>
+      <div class="metric-label">total duration</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon">🎯</div>
+      <div class="metric-value">1 prompt</div>
+      <div class="metric-label">same start for everyone</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon">🏆</div>
+      <div class="metric-value">4 categories</div>
+      <div class="metric-label">vibe-based voting</div>
+    </div>
+  </div>
+
+  <div class="live-tools">
+    <div class="timer-card">
+      <div class="section-label">Live facilitator timer</div>
+      <div class="timer-value" id="timer-readout">08:00</div>
+      <div class="timer-progress">
+        <div class="timer-progress-fill" id="timer-fill"></div>
+      </div>
+      <div class="timer-controls">
+        <button type="button" onclick="startTimer()">Start</button>
+        <button type="button" onclick="pauseTimer()">Pause</button>
+        <button type="button" onclick="resetTimer()">Reset</button>
+      </div>
+      <div class="timer-note" id="phase-note">Current phase: Reveal the prompt</div>
+    </div>
+    <div class="energy-card">
+      <div class="section-label">Vibe energy graph</div>
+      <div class="energy-row">
+        <span class="energy-label">Chaos</span>
+        <div class="energy-bar-track"><div class="energy-bar-fill" style="width: 88%;"></div></div>
+        <span class="energy-score">88%</span>
+      </div>
+      <div class="energy-row">
+        <span class="energy-label">Creativity</span>
+        <div class="energy-bar-track"><div class="energy-bar-fill" style="width: 93%;"></div></div>
+        <span class="energy-score">93%</span>
+      </div>
+      <div class="energy-row">
+        <span class="energy-label">Focus</span>
+        <div class="energy-bar-track"><div class="energy-bar-fill" style="width: 64%;"></div></div>
+        <span class="energy-score">64%</span>
+      </div>
+      <div class="energy-row">
+        <span class="energy-label">Fun</span>
+        <div class="energy-bar-track"><div class="energy-bar-fill" style="width: 97%;"></div></div>
+        <span class="energy-score">97%</span>
+      </div>
     </div>
   </div>
 
@@ -137,39 +311,43 @@
 
   <div class="section-label" style="margin-top:1.5rem">Prompt bank — pick one (or roll a random one)</div>
   <div class="prompts-grid" id="prompts-grid">
-    <div class="prompt-card" onclick="pick(this)">
+    <div class="prompt-card" onclick="pick(this)" tabindex="0" role="button" data-prompt="Build an app that tells you if your idea is stupid">
       <div class="prompt-emoji">🧠</div>
       <div class="prompt-text">"Build an app that tells you if your idea is stupid"</div>
       <div class="prompt-vibe">Vibe: judgment machine</div>
     </div>
-    <div class="prompt-card" onclick="pick(this)">
+    <div class="prompt-card" onclick="pick(this)" tabindex="0" role="button" data-prompt="Build an app that rates how boring your day was on a scale of 1 to 10">
       <div class="prompt-emoji">😴</div>
       <div class="prompt-text">"Build an app that rates how boring your day was on a scale of 1 to 10"</div>
       <div class="prompt-vibe">Vibe: existential dashboard</div>
     </div>
-    <div class="prompt-card" onclick="pick(this)">
+    <div class="prompt-card" onclick="pick(this)" tabindex="0" role="button" data-prompt="Build an app that translates any sentence into chicken noises">
       <div class="prompt-emoji">🐔</div>
       <div class="prompt-text">"Build an app that translates any sentence into chicken noises"</div>
       <div class="prompt-vibe">Vibe: absolute chaos</div>
     </div>
-    <div class="prompt-card" onclick="pick(this)">
+    <div class="prompt-card" onclick="pick(this)" tabindex="0" role="button" data-prompt="Build an excuse generator for skipping meetings with a convincingness score">
       <div class="prompt-emoji">💼</div>
       <div class="prompt-text">"Build an excuse generator for skipping meetings — with a convincingness score"</div>
       <div class="prompt-vibe">Vibe: corporate survival tool</div>
     </div>
-    <div class="prompt-card" onclick="pick(this)">
+    <div class="prompt-card" onclick="pick(this)" tabindex="0" role="button" data-prompt="Build a horoscope app for your code that predicts your bug count today">
       <div class="prompt-emoji">🔮</div>
       <div class="prompt-text">"Build a horoscope app but for your code — reads your mood and predicts your bug count today"</div>
       <div class="prompt-vibe">Vibe: mystical devops</div>
     </div>
-    <div class="prompt-card" onclick="pick(this)">
+    <div class="prompt-card" onclick="pick(this)" tabindex="0" role="button" data-prompt="Build an app that tells you what drink you are based on your personality">
       <div class="prompt-emoji">🧃</div>
       <div class="prompt-text">"Build an app that tells you what drink you are based on your personality"</div>
       <div class="prompt-vibe">Vibe: quiz energy</div>
     </div>
   </div>
 
-  <button onclick="rollRandom()" style="margin-bottom:1.5rem">Roll random prompt</button>
+  <div class="prompt-actions">
+    <button type="button" onclick="rollRandom()">Roll random prompt</button>
+    <button type="button" onclick="copySelectedPrompt()">Copy selected prompt</button>
+  </div>
+  <div class="pick-status" id="pick-status">No prompt selected yet.</div>
 
   <div class="section-label">The only rules</div>
   <div class="rules">
@@ -229,30 +407,161 @@
 </div>
 
 <script>
-  const extra = [
-    { e: "👻", t: '"Build a ghost detector app — it uses your camera and reports how haunted your room is"', v: "Vibe: paranormal analytics" },
-    { e: "🍕", t: '"Build an app that decides what you should eat based on your current emotional state"', v: "Vibe: feelings x food" },
-    { e: "🤖", t: '"Build an AI therapist for your git commit messages — it judges your naming choices"', v: "Vibe: dev trauma processing" },
-    { e: "🎲", t: '"Build a random feature idea generator for apps that nobody asked for"', v: "Vibe: startup graveyard" },
+  const totalDuration = 480;
+  let remaining = totalDuration;
+  let timerId = null;
+
+  const phases = [
+    { label: "Reveal the prompt", start: 0, end: 30 },
+    { label: "Build it (silent)", start: 30, end: 330 },
+    { label: "Screen shares", start: 330, end: 450 },
+    { label: "Vote + winner", start: 450, end: 480 },
   ];
 
+  const extra = [
+    { e: "👻", t: "Build a ghost detector app — it uses your camera and reports how haunted your room is", v: "Vibe: paranormal analytics" },
+    { e: "🍕", t: "Build an app that decides what you should eat based on your current emotional state", v: "Vibe: feelings x food" },
+    { e: "🤖", t: "Build an AI therapist for your git commit messages — it judges your naming choices", v: "Vibe: dev trauma processing" },
+    { e: "🎲", t: "Build a random feature idea generator for apps that nobody asked for", v: "Vibe: startup graveyard" },
+  ];
+
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60).toString().padStart(2, "0");
+    const secs = (seconds % 60).toString().padStart(2, "0");
+    return `${mins}:${secs}`;
+  }
+
+  function getElapsed() {
+    return totalDuration - remaining;
+  }
+
+  function updateTimeline() {
+    const elapsed = getElapsed();
+    const segments = document.querySelectorAll(".tl-seg");
+
+    let phaseIndex = phases.findIndex((phase) => elapsed >= phase.start && elapsed < phase.end);
+    if (elapsed >= totalDuration) phaseIndex = phases.length - 1;
+    if (phaseIndex < 0) phaseIndex = 0;
+
+    segments.forEach((seg, index) => {
+      seg.classList.toggle("tl-active", index === phaseIndex);
+    });
+
+    const phaseNote = document.getElementById("phase-note");
+    phaseNote.textContent = `Current phase: ${phases[phaseIndex].label}`;
+  }
+
+  function renderTimer() {
+    const readout = document.getElementById("timer-readout");
+    const fill = document.getElementById("timer-fill");
+    readout.textContent = formatTime(remaining);
+    fill.style.width = `${(remaining / totalDuration) * 100}%`;
+    updateTimeline();
+  }
+
+  function startTimer() {
+    if (timerId) return;
+    timerId = window.setInterval(() => {
+      if (remaining > 0) {
+        remaining -= 1;
+        renderTimer();
+        return;
+      }
+      window.clearInterval(timerId);
+      timerId = null;
+      setStatus("Time is up — start voting now.");
+    }, 1000);
+  }
+
+  function pauseTimer() {
+    if (!timerId) return;
+    window.clearInterval(timerId);
+    timerId = null;
+  }
+
+  function resetTimer() {
+    pauseTimer();
+    remaining = totalDuration;
+    renderTimer();
+    setStatus("Timer reset to 08:00.");
+  }
+
+  function setStatus(message) {
+    document.getElementById("pick-status").textContent = message;
+  }
+
   function pick(el) {
-    document.querySelectorAll('.prompt-card').forEach(c => c.classList.remove('picked'));
-    el.classList.add('picked');
+    document.querySelectorAll(".prompt-card").forEach((card) => card.classList.remove("picked"));
+    el.classList.add("picked");
+    setStatus(`Selected prompt: ${el.dataset.prompt}`);
+  }
+
+  function getSelectedPrompt() {
+    const selected = document.querySelector(".prompt-card.picked");
+    return selected ? selected.dataset.prompt : "";
+  }
+
+  function copySelectedPrompt() {
+    const text = getSelectedPrompt();
+    if (!text) {
+      setStatus("Pick a prompt first, then copy it.");
+      return;
+    }
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => {
+        setStatus("Prompt copied to clipboard.");
+      });
+      return;
+    }
+
+    const temp = document.createElement("textarea");
+    temp.value = text;
+    document.body.appendChild(temp);
+    temp.select();
+    const copied = document.execCommand("copy");
+    document.body.removeChild(temp);
+    setStatus(copied ? "Prompt copied to clipboard." : "Copy failed — copy manually from the selected card.");
   }
 
   function rollRandom() {
-    const grid = document.getElementById('prompts-grid');
-    const all = Array.from(grid.querySelectorAll('.prompt-card'));
-    const r = extra[Math.floor(Math.random() * extra.length)];
-    const existing = grid.querySelector('.rolled');
+    const grid = document.getElementById("prompts-grid");
+    const all = Array.from(grid.querySelectorAll(".prompt-card"));
+    const randomPrompt = extra[Math.floor(Math.random() * extra.length)];
+    const existing = grid.querySelector(".rolled");
+
     if (existing) existing.remove();
-    const card = document.createElement('div');
-    card.className = 'prompt-card rolled picked';
+
+    const card = document.createElement("div");
+    card.className = "prompt-card rolled picked";
+    card.dataset.prompt = randomPrompt.t;
+    card.setAttribute("tabindex", "0");
+    card.setAttribute("role", "button");
     card.onclick = function() { pick(this); };
-    card.innerHTML = `<div class="prompt-emoji">${r.e}</div><div class="prompt-text">${r.t}</div><div class="prompt-vibe">${r.v}</div>`;
-    all.forEach(c => c.classList.remove('picked'));
+    card.innerHTML = `<div class="prompt-emoji">${randomPrompt.e}</div><div class="prompt-text">"${randomPrompt.t}"</div><div class="prompt-vibe">${randomPrompt.v}</div>`;
+
+    all.forEach((prompt) => prompt.classList.remove("picked"));
     grid.appendChild(card);
-    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    setStatus(`Selected random prompt: ${randomPrompt.t}`);
+
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        pick(card);
+      }
+    });
+
+    card.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
+
+  document.querySelectorAll(".prompt-card").forEach((card) => {
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        pick(card);
+      }
+    });
+  });
+
+  renderTimer();
 </script>
