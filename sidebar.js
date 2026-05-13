@@ -1,6 +1,6 @@
 const pages = {
-    'page1.html': 'Page 1: Introduction',
-    'page2.html': 'Page 2: Advanced Topics'
+    'page1.html': 'Page 1',
+    'page2.html': 'Page 2'
 };
 
 class Sidebar extends HTMLElement {
@@ -14,6 +14,8 @@ class Sidebar extends HTMLElement {
     }
 
     render() {
+        const currentPage = window.location.pathname.split('/').pop();
+
         this.shadowRoot.innerHTML = `
             <style>
                 :host {
@@ -22,7 +24,8 @@ class Sidebar extends HTMLElement {
                     color: white;
                     padding: 20px;
                     position: fixed;
-                    height: 100vh;
+                    top: 60px;
+                    height: calc(100vh - 60px);
                     width: 250px;
                     box-sizing: border-box;
                 }
@@ -40,20 +43,24 @@ class Sidebar extends HTMLElement {
                     margin: 10px 0;
                 }
 
-                a {
-                    color: white;
-                    text-decoration: none;
-                    padding: 10px;
-                    display: block;
-                    border-radius: 4px;
-                    transition: background 0.3s;
-                }
-
-                a:hover {
+                button {
                     background: #34495e;
+                    color: white;
+                    border: none;
+                    padding: 10px 16px;
+                    width: 100%;
+                    text-align: left;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: background 0.3s;
+                    font-size: 14px;
                 }
 
-                a.active {
+                button:hover {
+                    background: #3d566e;
+                }
+
+                button.active {
                     background: #3498db;
                 }
             </style>
@@ -62,52 +69,27 @@ class Sidebar extends HTMLElement {
                 <ul>
                     ${Object.keys(pages).map(page => `
                         <li>
-                            <a href="${page}" data-page="${page}">
+                            <button data-page="${page}">
                                 ${pages[page]}
-                            </a>
+                            </button>
                         </li>
                     `).join('')}
                 </ul>
             </nav>
         `;
 
-        this.shadowRoot.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.loadPage(link.getAttribute('href'));
-                this.setActive(link);
+        this.shadowRoot.querySelectorAll('button').forEach(btn => {
+            if (btn.getAttribute('data-page') === currentPage) {
+                btn.classList.add('active');
+            }
+
+            btn.addEventListener('click', () => {
+                window.location.href = btn.getAttribute('data-page');
             });
         });
     }
-
-    setActive(activeLink) {
-        this.shadowRoot.querySelectorAll('a').forEach(link => {
-            link.classList.remove('active');
-        });
-        activeLink.classList.add('active');
-    }
-
-    async loadPage(page) {
-        const main = document.querySelector('main');
-        if (!main) return;
-
-        try {
-            const response = await fetch(page);
-            const html = await response.text();
-            main.innerHTML = html;
-        } catch (error) {
-            main.innerHTML = `<p>Error loading page.</p>`;
-        }
-    }
 }
 
-customElements.define('sidebar', Sidebar);
-
-if (document.querySelector('sidebar')) {
-    const sidebar = document.querySelector('sidebar');
-    const hash = window.location.hash.slice(1);
-    if (hash && pages[hash]) {
-        sidebar.loadPage(hash);
-        sidebar.setActive(sidebar.shadowRoot.querySelector(`[data-page="${hash}"]`));
-    }
+if (!customElements.get('training-sidebar')) {
+    customElements.define('training-sidebar', Sidebar);
 }

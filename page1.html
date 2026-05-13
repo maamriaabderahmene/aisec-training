@@ -15,11 +15,52 @@
         </ul>
     </nav>
 
-    <sidebar></sidebar>
+    <training-sidebar></training-sidebar>
 
     <main>
-        <h1>Module 1: Introduction</h1>
-        <p>Content for page 1 goes here.</p>
+        <section class="page-header">
+            <h1>🛡️ Page 1: AI Threat Landscape</h1>
+            <p>Overview of the most common security risks in modern AI systems.</p>
+        </section>
+
+        <section class="icon-grid">
+            <article class="metric-card">
+                <div class="metric-icon">🧪</div>
+                <h3>Prompt Injection</h3>
+                <p>Untrusted inputs overriding system behavior and policies.</p>
+            </article>
+            <article class="metric-card">
+                <div class="metric-icon">🧬</div>
+                <h3>Data Poisoning</h3>
+                <p>Malicious samples corrupting model accuracy and trust.</p>
+            </article>
+            <article class="metric-card">
+                <div class="metric-icon">🕵️</div>
+                <h3>Model Extraction</h3>
+                <p>Attackers cloning proprietary models through repeated queries.</p>
+            </article>
+        </section>
+
+        <section class="chart-card">
+            <h2>Risk Exposure Graph</h2>
+            <div class="bar-chart">
+                <div class="bar-row">
+                    <span class="bar-label">Prompt Injection</span>
+                    <div class="bar-track"><div class="bar-fill fill-84"></div></div>
+                    <span class="bar-value">84%</span>
+                </div>
+                <div class="bar-row">
+                    <span class="bar-label">Data Poisoning</span>
+                    <div class="bar-track"><div class="bar-fill fill-67"></div></div>
+                    <span class="bar-value">67%</span>
+                </div>
+                <div class="bar-row">
+                    <span class="bar-label">Model Extraction</span>
+                    <div class="bar-track"><div class="bar-fill fill-58"></div></div>
+                    <span class="bar-value">58%</span>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script src="sidebar.js"></script>
