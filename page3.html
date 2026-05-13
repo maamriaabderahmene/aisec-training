@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page 3</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">AI SEC Training</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+
+    <training-sidebar></training-sidebar>
+
+    <main>
+        <section class="page-header">
+            <h1>Module 3: Collaboration Workflow</h1>
+            <p>Learn the basics of working with branches, pull requests, and conflict resolution.</p>
+        </section>
+
+        <section class="icon-grid">
+            <article class="metric-card">
+                <div class="metric-icon">🌿</div>
+                <h3>Branches</h3>
+                <p>Create feature branches and keep your changes isolated and reviewable.</p>
+            </article>
+            <article class="metric-card">
+                <div class="metric-icon">🔎</div>
+                <h3>Pull Requests</h3>
+                <p>Open PRs early, add context, and request reviews to reduce mistakes.</p>
+            </article>
+            <article class="metric-card">
+                <div class="metric-icon">🧩</div>
+                <h3>Conflicts</h3>
+                <p>Resolve conflicts safely by understanding diffs and testing before merging.</p>
+            </article>
+        </section>
+
+        <section class="chart-card">
+            <h2>Progress Tracker</h2>
+            <div class="bar-chart">
+                <div class="bar-row">
+                    <span class="bar-label">Branch created</span>
+                    <div class="bar-track"><div class="bar-fill fill-84"></div></div>
+                    <span class="bar-value">84%</span>
+                </div>
+                <div class="bar-row">
+                    <span class="bar-label">PR opened</span>
+                    <div class="bar-track"><div class="bar-fill fill-67"></div></div>
+                    <span class="bar-value">67%</span>
+                </div>
+                <div class="bar-row">
+                    <span class="bar-label">Merge clean</span>
+                    <div class="bar-track"><div class="bar-fill fill-58"></div></div>
+                    <span class="bar-value">58%</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="sidebar.js"></script>
+</body>
+</html>

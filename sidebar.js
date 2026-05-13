@@ -1,6 +1,7 @@
 const pages = {
     'page1.html': 'Page 1',
-    'page2.html': 'Page 2'
+    'page2.html': 'Page 2',
+    'page3.html': 'Page 3'
 };
 
 class Sidebar extends HTMLElement {
