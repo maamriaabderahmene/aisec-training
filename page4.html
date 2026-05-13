@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page 4</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">AI SEC Training</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+
+    <training-sidebar></training-sidebar>
+
+    <main>
+        <section class="page-header">
+            <h1>🧭 Page 4: Resilience Dashboard</h1>
+            <p>Long-term resilience indicators for model safety, privacy, and reliability.</p>
+        </section>
+
+        <section class="icon-grid">
+            <article class="metric-card">
+                <div class="metric-icon">🛡️</div>
+                <h3>Policy Compliance</h3>
+                <p>Automated controls now enforce 94% of baseline AI security rules.</p>
+            </article>
+            <article class="metric-card">
+                <div class="metric-icon">🔍</div>
+                <h3>Audit Coverage</h3>
+                <p>Traceability expanded to all critical prompts and model decisions.</p>
+            </article>
+            <article class="metric-card">
+                <div class="metric-icon">📈</div>
+                <h3>Recovery Readiness</h3>
+                <p>Average fallback recovery time improved by 38% over six weeks.</p>
+            </article>
+        </section>
+
+        <section class="chart-card">
+            <h2>Weekly Resilience Graph</h2>
+            <svg class="trend-graph" viewBox="0 0 560 240" role="img" aria-label="Weekly resilience score across six weeks">
+                <line x1="45" y1="190" x2="530" y2="190" stroke="#b7c2cf" stroke-width="2"></line>
+                <line x1="45" y1="35" x2="45" y2="190" stroke="#b7c2cf" stroke-width="2"></line>
+                <polyline points="70,170 145,150 220,132 295,112 370,92 445,78 520,60" fill="none" stroke="#2ecc71" stroke-width="4"></polyline>
+                <circle cx="70" cy="170" r="5" fill="#2ecc71"></circle>
+                <circle cx="145" cy="150" r="5" fill="#2ecc71"></circle>
+                <circle cx="220" cy="132" r="5" fill="#2ecc71"></circle>
+                <circle cx="295" cy="112" r="5" fill="#2ecc71"></circle>
+                <circle cx="370" cy="92" r="5" fill="#2ecc71"></circle>
+                <circle cx="445" cy="78" r="5" fill="#2ecc71"></circle>
+                <circle cx="520" cy="60" r="5" fill="#2ecc71"></circle>
+                <text x="62" y="214">W1</text>
+                <text x="137" y="214">W2</text>
+                <text x="212" y="214">W3</text>
+                <text x="287" y="214">W4</text>
+                <text x="362" y="214">W5</text>
+                <text x="437" y="214">W6</text>
+                <text x="504" y="44">91</text>
+            </svg>
+        </section>
+    </main>
+
+    <script src="sidebar.js"></script>
+</body>
+</html>
